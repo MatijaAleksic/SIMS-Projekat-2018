@@ -19,6 +19,11 @@ public class RegisteredUser extends User {
 		equipments = new ArrayList<Equipment>();
 	}
 	
+	public RegisteredUser(String name, String lastname, String username, String password) {
+		super(name, lastname, username, password);
+		// TODO Auto-generated constructor stub
+	}
+
 	public void addIngredient(Ingredient ing) {
 		// TODO: implement
 	}

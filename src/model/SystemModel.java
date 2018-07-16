@@ -1,5 +1,8 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SystemModel {
@@ -10,7 +13,7 @@ public class SystemModel {
 
 	private ArrayList<Equipment> equipments;
 	private ArrayList<Ingredient> ingredients;
-	private ArrayList<User> users;
+	private static ArrayList<User> users;
 	private ArrayList<Recipe> recipes;
 	private ArrayList<MealTag> mealTags;
 	private ArrayList<Recipe> reportedRecipes;
@@ -33,11 +36,18 @@ public class SystemModel {
 
 	public static SystemModel getSystem() {
 		if (system == null)
+		{
 			system = new SystemModel();
+
+		}
 		return system;
 	}
 
-
+	public ArrayList<User> listUsers()
+	{
+		return users;
+		
+	}
 	public void addRequest(Request req) {
 		// TODO: implement
 	}
@@ -69,11 +79,13 @@ public class SystemModel {
 	
 	public User findUser(String username) {
 		for (User u : users) {
-			System.out.println(u);
-			System.out.println(username);
 			if (u.getUsername().equals(username))
+			{
+				System.out.println("Registrovanje neuspesno!");
 				return u;
+			}
 		}
+		System.out.println("Registrovanje uspesno!");
 		return null;
 	}
 
@@ -120,8 +132,15 @@ public class SystemModel {
 	public User loginCheck(String username, String password) {
 		// TODO: implement
 		for (User u : users) 
+		{
 			if (u.getUsername().equals(username) && u.getPassword().equals(password))
+			{
+				System.out.println("Login uspesan!");
 				return u;
+			}
+		}
+
+		System.out.println("Login neuspesan!");
 		return null;
 	}
 

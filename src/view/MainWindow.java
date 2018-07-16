@@ -58,6 +58,7 @@ public class MainWindow extends JFrame {
         
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
+        this.setLocationRelativeTo(null);
 	}
 	
 	public void setNewToolbar(UserType type) {

@@ -28,10 +28,12 @@ public class registerCheckListener implements ActionListener {
 			user.setUsername(username);
 			user.setPassword(password);
 			c.getModel().addUser(user);
+			c.writeUsers();
 			dialog.dispose();
 		} else {
 			System.out.println("User already exists!");
 		}
+		
 			
 		
 	}

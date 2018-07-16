@@ -3,12 +3,17 @@ package controller;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import enums.UserType;
+import model.Administrator;
 import model.Equipment;
 import model.Ingredient;
 import model.MealTag;
+import model.RegisteredUser;
 import model.SystemModel;
+import model.User;
 import view.MainWindow;
 
 public class Controller {
@@ -24,6 +29,7 @@ public class Controller {
 		loadIngredients();
 		loadEquipments();
 		loadMealTags();
+		loadUsers();
 	}
 	
 	
@@ -42,7 +48,6 @@ public class Controller {
 		return view;
 	}
 
-	
 	public UserType getCurrentUserType() {
 		if (model.getCurrentUser() == null)
 			return UserType.TEMPUSER;
@@ -51,7 +56,6 @@ public class Controller {
 		else 
 			return UserType.ADMIN;
 	}
-	
 	
 	public void loadIngredients() {
 		BufferedReader reader;
@@ -64,6 +68,36 @@ public class Controller {
 				line = reader.readLine();
 			}
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadUsers()
+	{
+		String path = "." + System.getProperty("file.separator");
+		String linija;
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(path + "resources/users.txt"));
+			while ((linija = in.readLine()) != null)
+			{
+				String[] linije = linija.split("\\|");
+			
+				if(linije[0].equals("a"))
+				{
+					System.out.println("Proslo");
+					Administrator a = new Administrator(linije[1], linije[2], linije[3], linije[4]);
+					model.addUser(a);
+				}
+				else
+				{
+					RegisteredUser a = new RegisteredUser(linije[1], linije[2], linije[3], linije[4]);
+					model.addUser(a);
+				}
+			}
+			in.close();
+		}
+		catch (IOException e) {
+			System.err.println("Greska!");
 			e.printStackTrace();
 		}
 	}
@@ -100,4 +134,28 @@ public class Controller {
 		}
 	}
 	
+	public void writeUsers()
+	{
+		try
+		{
+			PrintWriter writer = new PrintWriter("./resources/users.txt", "UTF-8");
+			ArrayList<User> usrs = model.listUsers();
+			for(User u : usrs)
+			{
+				if(u instanceof Administrator)
+				{
+					writer.println("a|" + u.getName() + "|" + u.getLastname() + "|" + u.getUsername() + "|" + u.getPassword());
+				}
+				else
+				{
+					writer.println("u|" + u.getName() + "|" + u.getLastname() + "|" + u.getUsername() + "|" + u.getPassword());
+				}
+			}
+			writer.close();		
+		}
+		catch(Exception e)
+		{
+			System.out.println("Greska pri upisu!");
+		}
+	}
 }

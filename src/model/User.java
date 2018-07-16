@@ -16,6 +16,15 @@ public class User {
 		password = null;
 		system = null;
 	}
+	
+	public User(String name, String lastname, String username, String password) {
+		super();
+		this.name = name;
+		this.lastname = lastname;
+		this.username = username;
+		this.password = password;
+		system = null;
+	}
 
 	
 	public void setUsername(String name) {
@@ -24,7 +33,7 @@ public class User {
 
 	
 	public void setPassword(String pass) {
-		password = pass;
+		this.password = pass;
 	}
 	
 	public String getPassword() {
@@ -37,21 +46,19 @@ public class User {
 	
 
 	public String getName() {
-		// TODO: implement
-		return null;
+		return name;
 	}
 
 	
 	public void setName(String name) {
-		// todo
+		this.name = name;
 	}
 
 	public String getLastname() {
-		// TODO: implement
-		return null;
+		return lastname;
 	}
 
 	public void setLastname(String lastname) {
-		// TODO: implement
+		this.lastname = lastname;
 	}
 }

@@ -6,6 +6,11 @@ public class Administrator extends User {
 		super();
 	}
 	
+	public Administrator(String name, String lastname, String username, String password) {
+		super(name, lastname, username, password);
+		// TODO Auto-generated constructor stub
+	}
+
 	public void approveRequest(Request req) {
 		// TODO: implement
 	}
