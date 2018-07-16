@@ -1,9 +1,8 @@
 package model;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
+
+import com.sun.javafx.collections.SortableList;
 
 public class SystemModel {
 	private static SystemModel system = null;
@@ -13,7 +12,7 @@ public class SystemModel {
 
 	private ArrayList<Equipment> equipments;
 	private ArrayList<Ingredient> ingredients;
-	private static ArrayList<User> users;
+	private ArrayList<User> users;
 	private ArrayList<Recipe> recipes;
 	private ArrayList<MealTag> mealTags;
 	private ArrayList<Recipe> reportedRecipes;
@@ -36,18 +35,23 @@ public class SystemModel {
 
 	public static SystemModel getSystem() {
 		if (system == null)
-		{
 			system = new SystemModel();
-
-		}
 		return system;
 	}
-
+	
+	
 	public ArrayList<User> listUsers()
 	{
 		return users;
 		
 	}
+	
+	
+	public User getCurrentUser1() {
+		return currentUser;
+	}
+
+
 	public void addRequest(Request req) {
 		// TODO: implement
 	}
@@ -79,13 +83,11 @@ public class SystemModel {
 	
 	public User findUser(String username) {
 		for (User u : users) {
+			System.out.println(u);
+			System.out.println(username);
 			if (u.getUsername().equals(username))
-			{
-				System.out.println("Registrovanje neuspesno!");
 				return u;
-			}
 		}
-		System.out.println("Registrovanje uspesno!");
 		return null;
 	}
 
@@ -123,24 +125,36 @@ public class SystemModel {
 	}
 
 	
-	public ArrayList<Recipe> searchRecipes(ArrayList<Ingredient> ings, ArrayList<Equipment> eqs, ArrayList<MealTag> tags) {
-		// TODO: implement
-		return null;
+	public ArrayList<Result> searchRecipes(ArrayList<Ingredient> ings, ArrayList<Equipment> eqs, ArrayList<MealTag> tags) {
+		ArrayList<Result> results = new ArrayList<Result>();
+		
+		for (Recipe r : recipes) {
+			int score = 0;	
+			for (Ingredient ing : ings)
+				if (r.containsIng(ing))
+					score += 3;
+			
+			for (Equipment eq : eqs) 
+				if (r.containsEq(eq))
+					score += 1;
+			
+			for (MealTag mt : tags)
+				if (r.containMt(mt))
+					score += 1;
+			
+			if (score > 0)
+				results.add(new Result(r, score));
+		}
+		
+		return results;
 	}
 
 	
 	public User loginCheck(String username, String password) {
 		// TODO: implement
 		for (User u : users) 
-		{
 			if (u.getUsername().equals(username) && u.getPassword().equals(password))
-			{
-				System.out.println("Login uspesan!");
 				return u;
-			}
-		}
-
-		System.out.println("Login neuspesan!");
 		return null;
 	}
 

@@ -17,6 +17,7 @@ public class User {
 		system = null;
 	}
 	
+	
 	public User(String name, String lastname, String username, String password) {
 		super();
 		this.name = name;
@@ -33,7 +34,7 @@ public class User {
 
 	
 	public void setPassword(String pass) {
-		this.password = pass;
+		password = pass;
 	}
 	
 	public String getPassword() {
@@ -46,19 +47,21 @@ public class User {
 	
 
 	public String getName() {
-		return name;
+		// TODO: implement
+		return null;
 	}
 
 	
 	public void setName(String name) {
-		this.name = name;
+		// todo
 	}
 
 	public String getLastname() {
-		return lastname;
+		// TODO: implement
+		return null;
 	}
 
 	public void setLastname(String lastname) {
-		this.lastname = lastname;
+		// TODO: implement
 	}
 }

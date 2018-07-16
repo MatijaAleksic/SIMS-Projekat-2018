@@ -10,23 +10,35 @@ public class RecipeIngredient {
 		core = false;
 		ingredient = null;
 	}
+	
+	public RecipeIngredient(int amount, boolean core, Ingredient i) {
+		this.amount = amount;
+		this.core = core;
+		ingredient = i;
+	}
 
 	
 	public void setAmount(int amount) {
-		// TODO: implement
+		this.amount = amount;
 	}
 
 	public int getAmount() {
-		// TODO: implement
-		return 0;
+		return amount;
 	}
 
 	public boolean isCore() {
-		// TODO: implement
-		return false;
+		return core;
 	}
 
 	public void setCore(boolean c) {
-		// TODO: implement
+		core = c;
+	}
+	
+	public void setIngredient(Ingredient i) {
+		ingredient = i;
+	}
+	
+	public Ingredient getIngredient() {
+		return ingredient;
 	}
 }

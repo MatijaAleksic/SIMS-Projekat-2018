@@ -3,7 +3,7 @@ package view;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 
-import listeners.createRecipeListener;
+import listeners.createRecipeDialogListener;
 import listeners.loginListener;
 import listeners.logoutListener;
 import listeners.myItemsListener;
@@ -55,7 +55,7 @@ public class ToolbarStandard extends JToolBar {
 		add(searchByItems);
 		
 		createRecipe = new JButton("Create recipe");
-		createRecipe.addActionListener(new createRecipeListener());
+		createRecipe.addActionListener(new createRecipeDialogListener());
 		add(createRecipe);
 		
 		myItems = new JButton("My items");

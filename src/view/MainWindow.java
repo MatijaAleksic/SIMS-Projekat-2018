@@ -1,18 +1,19 @@
 package view;
 
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import controller.Controller;
 import enums.UserType;
+import model.Result;
 
 
 public class MainWindow extends JFrame {
@@ -21,6 +22,8 @@ public class MainWindow extends JFrame {
 	
 	private ToolbarStandard toolbar;
 	private JMenuBar menu;
+	private JTable resultTable;
+	private JScrollPane resultPanel;
 	
 	
 	private MainWindow() {
@@ -41,24 +44,59 @@ public class MainWindow extends JFrame {
 		int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
         setSize(screenWidth * 3 / 4, screenHeight * 3 / 4);
-        
-        // Depending of active user different toolbar settings are set.
-    
+       
         toolbar = new ToolbarStandard(type);   
         add(toolbar, BorderLayout.NORTH);
         
-        menu = new JMenuBar();
-        
-        
+        menu = new JMenuBar(); 
         JMenu file = new JMenu("File");
         JMenu help = new JMenu("Help");
         menu.add(file);
         menu.add(help);
         setJMenuBar(menu);
         
+        
+        
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        this.setLocationRelativeTo(null);
+	}
+	
+	public void setTable(ArrayList<Result> results) {
+		String[] cols = {"Name", "Desc", "Score"};
+		Object[][] data = new Object[results.size()][3];
+		
+		for (int i = 0; i < results.size(); i++) {
+			data[i][0] = results.get(i).recipe.getName();
+			data[i][1] = results.get(i).recipe.getDesc();
+			data[i][2] = results.get(i).score;
+		}
+		
+		DefaultTableModel dtm = new DefaultTableModel(data, cols);
+		resultTable = new JTable(dtm){
+			@Override
+            public Class getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return String.class;
+                    case 1:
+                        return String.class;
+                    case 2:
+                        return Integer.class;
+                    default:
+                        return String.class;
+                }
+			}
+		};
+	}
+	
+	public void initTable(ArrayList<Result> results) {
+		setTable(results);
+		if (resultPanel != null)
+			remove(resultPanel);
+		resultPanel = new JScrollPane(resultTable);
+		add(resultPanel);
+		revalidate();
+		repaint();
 	}
 	
 	public void setNewToolbar(UserType type) {
@@ -67,7 +105,8 @@ public class MainWindow extends JFrame {
 		add(toolbar, BorderLayout.NORTH);
 		revalidate();
 		repaint();
-		
 	}
+	
+	
 	
 }

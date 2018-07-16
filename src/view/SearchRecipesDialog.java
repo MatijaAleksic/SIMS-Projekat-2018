@@ -1,83 +1,46 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
 import controller.Controller;
-import listeners.createRecipeListener;
+import listeners.searchActionListener;
 import model.Equipment;
 import model.Ingredient;
 import model.MealTag;
 
-public class CreateRecipeDialog extends JDialog {
-	
-	private JTabbedPane pane;
-	private JPanel descPanel, ingPanel, eqsPanel, tagsPanel;
-	
-	public JTextArea name, desc, steps;
-	
-	public JTable ingTable, eqsTable, tagsTable;
-	
+public class SearchRecipesDialog extends JDialog {
+	private JTabbedPane tabs;
+	private JPanel ingPanel, eqPanel, tagPanel;
+	public JTable ingTable, eqTable, tagTable;
 	private JButton okButton;
 	
-	public CreateRecipeDialog(JFrame mainWin) {
-		super(mainWin);
+	public SearchRecipesDialog(JFrame mainView) {
+		super(mainView);
 		initGui();
 	}
 	
 	public void initGui() {
 		setSize(360, 400);
-		
-		pane = new JTabbedPane();
-		
-		initDescPanel();
+		tabs = new JTabbedPane();
 		initIngPanel();
-		initEquipPanel();
-		initTagsPanel();
+		initEqPanel();
+		initTagPanel();
 		
-		pane.add("Description", descPanel);
-		pane.add("Ingredients", ingPanel);
-		pane.add("Equipments", eqsPanel);
-		pane.add("Meal tags", tagsPanel);
-	
-		add(pane);
-		
-	}
-	
-	private void initDescPanel() {
-		descPanel = new JPanel();
-		descPanel.setLayout(new BoxLayout(descPanel, BoxLayout.PAGE_AXIS));
-		
-		descPanel.add(new JLabel("Recipe name:"));
-		name = new JTextArea("", 1, 20);
-		name.setLineWrap(true);
-		descPanel.add(name);
-		
-		descPanel.add(new JLabel("Description:"));
-		desc = new JTextArea("", 5, 25);
-		desc.setLineWrap(true);
-		descPanel.add(desc);
-		
-		descPanel.add(new JLabel("Steps:"));
-		steps = new JTextArea("", 6, 20);
-		steps.setLineWrap(true);
-		descPanel.add(steps);
-		
-		okButton = new JButton("OK");
-		okButton.addActionListener(new createRecipeListener(this));
-		descPanel.add(okButton);
+		tabs.addTab("Ingredients", ingPanel);
+		tabs.addTab("Equipment", eqPanel);
+		tabs.addTab("Meal tags", tagPanel);
+		add(tabs);
 	}
 	
 	private void initIngPanel() {
@@ -115,10 +78,15 @@ public class CreateRecipeDialog extends JDialog {
 		JScrollPane scrollPane = new JScrollPane(ingTable);
 		scrollPane.setPreferredSize(new Dimension(300, 300));
 		ingPanel.add(scrollPane);
+		
+		okButton = new JButton("OK");
+		okButton.addActionListener(new searchActionListener(this));
+		ingPanel.add(okButton);
+		
 	}
 	
-	private void initEquipPanel() {
-		eqsPanel = new JPanel();
+	private void initEqPanel() {
+		eqPanel = new JPanel();
 		
 		Controller c = Controller.getController(null, null);
 		ArrayList<Equipment> eqs = c.getModel().getEquipments();
@@ -132,7 +100,7 @@ public class CreateRecipeDialog extends JDialog {
 		}
 		
 		DefaultTableModel dtm = new DefaultTableModel(values, cols);
-		eqsTable = new JTable(dtm){
+		eqTable = new JTable(dtm){
 			@Override
             public Class getColumnClass(int column) {
                 switch (column) {
@@ -146,13 +114,13 @@ public class CreateRecipeDialog extends JDialog {
 			}
 		};
 		
-		JScrollPane scrollPane = new JScrollPane(eqsTable);
+		JScrollPane scrollPane = new JScrollPane(eqTable);
 		scrollPane.setPreferredSize(new Dimension(300, 300));
-		eqsPanel.add(scrollPane);
+		eqPanel.add(scrollPane);
 	}
 	
-	private void initTagsPanel() {
-		tagsPanel = new JPanel();
+	private void initTagPanel() {
+		tagPanel = new JPanel();
 		
 		Controller c = Controller.getController(null, null);
 		ArrayList<MealTag> tags = c.getModel().getMealTags();
@@ -166,7 +134,7 @@ public class CreateRecipeDialog extends JDialog {
 		}
 		
 		DefaultTableModel dtm = new DefaultTableModel(values, cols);
-		tagsTable = new JTable(dtm){
+		tagTable = new JTable(dtm){
 			@Override
             public Class getColumnClass(int column) {
                 switch (column) {
@@ -180,10 +148,8 @@ public class CreateRecipeDialog extends JDialog {
 			}
 		};
 		
-		JScrollPane scrollPane = new JScrollPane(tagsTable);
+		JScrollPane scrollPane = new JScrollPane(tagTable);
 		scrollPane.setPreferredSize(new Dimension(300, 300));
-		tagsPanel.add(scrollPane);
+		tagPanel.add(scrollPane);
 	}
-	
-	
 }

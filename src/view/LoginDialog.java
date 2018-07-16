@@ -25,7 +25,6 @@ public class LoginDialog extends JDialog {
 	private void initGui() {
 		setTitle("Registration");
 		setSize(300, 150);
-		super.setLocationRelativeTo(null);
 		
 		username = new JLabel("Username: ");
 		password = new JLabel("Password:" );
